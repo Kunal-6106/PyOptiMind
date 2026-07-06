@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Result | PyOptiMind</title>
+
+    <script>
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add("dark-mode");
+        } else {
+            document.documentElement.classList.remove("dark-mode");
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div id="page-transition"></div>
+
+    <nav class="navbar">
+        <div class="nav-logo">PyOptiMind</div>
+        <div class="nav-links">
+            <a href="/" class="nav-transition">Home</a>
+            <a href="/about" class="nav-transition">About</a>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <h1>Premium Code Insight</h1>
+        <p>Professional-quality optimization results with polished impact guidance and clear code refinement direction.</p>
+        {% if metrics.complexity_score %}
+        <div class="complexity-badge">
+            <span class="badge-label">Complexity Score:</span>
+            <span class="badge-value">{{ metrics.complexity_score }}</span>
+        </div>
+        {% endif %}
+    </section>
+
+    {% if error %}
+    <section class="main-dashboard">
+        <div class="card" style="border-left: 5px solid #ff4b2b;">
+            <h2 style="color: #ff4b2b;">⚠️ Syntax Error Detected</h2>
+            <p class="subtext">We couldn't analyze the code because it contains a Python syntax error:</p>
+            <pre style="background: rgba(255, 75, 43, 0.1); padding: 15px; border-radius: 8px; color: #ff4b2b;"><code>{{ error }}</code></pre>
+            <div class="button-row" style="margin-top: 20px;">
+                <a href="/" class="primary-btn">Go Back & Fix Code</a>
+            </div>
+        </div>
+    </section>
+    {% else %}
+
+    <section class="main-dashboard metrics-grid">
+        <div class="metric-card">
+            <h3>Impact Findings</h3>
+            <p>{{ metrics.issues_found }}</p>
+        </div>
+        <div class="metric-card">
+            <h3>Optimization Score</h3>
+            <p>{{ metrics.optimization_score }}%</p>
+        </div>
+        <div class="metric-card">
+            <h3>Readability Score</h3>
+            <p>{{ metrics.readability_score }}%</p>
+        </div>
+        <div class="metric-card">
+            <h3>Analysis Runtime</h3>
+            <p>{{ metrics.analysis_time_ms }} ms</p>
+        </div>
+        <div class="metric-card">
+            <h3>Runtime Impact</h3>
+            <p>{{ metrics.runtime_impact_score }}%</p>
+        </div>
+        {% if metrics.complexity_score %}
+        <div class="metric-card">
+            <h3>Complexity Score</h3>
+            <p>{{ metrics.complexity_score }}</p>
+        </div>
+        {% endif %}
+        {% if metrics.security_issues and metrics.security_issues > 0 %}
+        <div class="metric-card security-card">
+            <h3>🔒 Security Issues</h3>
+            <p>{{ metrics.security_issues }}</p>
+        </div>
+        {% endif %}
+    </section>
+
+    <section class="main-dashboard impact-grid">
+        <div class="impact-card high-impact">
+            <div class="impact-header">
+                <div>
+                    <h3>High Impact</h3>
+                    <p class="impact-note">Critical improvements that deliver the biggest gains.</p>
+                </div>
+                <div class="impact-count">{{ impact_counts.high }}</div>
+            </div>
+            <div class="impact-list">
+                {% if impact_groups.high %}
+                    {% for description in impact_groups.high %}
+                        <div class="impact-item">{{ description }}</div>
+                    {% endfor %}
+                {% else %}
+                    <div class="impact-item empty">No high-impact findings.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="impact-card medium-impact">
+            <div class="impact-header">
+                <div>
+                    <h3>Medium Impact</h3>
+                    <p class="impact-note">Important suggestions that improve structure and clarity.</p>
+                </div>
+                <div class="impact-count">{{ impact_counts.medium }}</div>
+            </div>
+            <div class="impact-list">
+                {% if impact_groups.medium %}
+                    {% for description in impact_groups.medium %}
+                        <div class="impact-item">{{ description }}</div>
+                    {% endfor %}
+                {% else %}
+                    <div class="impact-item empty">No medium-impact findings.</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="impact-card low-impact">
+            <div class="impact-header">
+                <div>
+                    <h3>Low Impact</h3>
+                    <p class="impact-note">Minor refinements that keep your code polished.</p>
+                </div>
+                <div class="impact-count">{{ impact_counts.low }}</div>
+            </div>
+            <div class="impact-list">
+                {% if impact_groups.low %}
+                    {% for description in impact_groups.low %}
+                        <div class="impact-item">{{ description }}</div>
+                    {% endfor %}
+                {% else %}
+                    <div class="impact-item empty">No low-impact findings.</div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="main-dashboard code-grid">
+        <div class="code-card original-code-card">
+            <div class="code-header">
+                <div>
+                    <h2>Original Code</h2>
+                    <span class="code-label remove-label">Original</span>
+                </div>
+                <button class="secondary-btn" onclick="copyCode('originalCode', this)">Copy</button>
+            </div>
+            <pre><code id="originalCode">{{ original_code }}</code></pre>
+        </div>
+
+        <div class="code-card optimized-code-card">
+            <div class="code-header">
+                <div>
+                    <h2>Optimized Suggestion</h2>
+                    <span class="code-label add-label">Optimized</span>
+                </div>
+                <div class="code-actions">
+                    <button class="secondary-btn" onclick="copyCode('optimizedCode', this)">Copy</button>
+                    <button class="primary-btn" onclick="downloadCode()">Download .py</button>
+                </div>
+            </div>
+            <pre><code id="optimizedCode">{{ optimized_code }}</code></pre>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="main-dashboard action-buttons">
+        <a href="/" class="primary-btn nav-transition">Analyze Another Code</a>
+        <button class="secondary-btn" onclick="toggleTheme()">Toggle Theme</button>
+    </section>
+
+    <footer class="footer">
+        <p>Smart Python Optimization Assistant • Mini Project • Academic Year 2025–26</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+
+    <script>
+        function copyCode(elementId, button) {
+            const codeText = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const originalText = button.innerText;
+                button.innerText = "Copied!";
+                setTimeout(() => { button.innerText = originalText; }, 1500);
+            });
+        }
+
+        function downloadCode() {
+            const codeText = document.getElementById("optimizedCode").innerText;
+            const blob = new Blob([codeText], { type: "text/x-python" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "optimized_code.py";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

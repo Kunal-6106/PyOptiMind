@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | PyOptiMind</title>
+
+    <script>
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add("dark-mode");
+        } else {
+            document.documentElement.classList.remove("dark-mode");
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- PAGE TRANSITION OVERLAY -->
+    <div id="page-transition"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">⚡ PyOptiMind</div>
+        <div class="nav-links">
+            <a href="/" class="nav-transition">Home</a>
+            <a href="/about" class="nav-transition">About</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero-section">
+        <h1>About the Project</h1>
+        <p>
+            PyOptiMind is a smart Python code analysis dashboard developed to detect inefficiencies,
+            suggest improvements, and make optimization more explainable and educational.
+        </p>
+    </div>
+
+    <!-- PROJECT OVERVIEW -->
+    <div class="main-dashboard about-wide">
+        <div class="card">
+            <h2>Project Overview</h2>
+            <p class="subtext">
+                PyOptiMind is a mini-project designed to help programmers improve Python code quality
+                through static analysis techniques. The project focuses on identifying inefficiencies
+                such as non-Pythonic loops, repeated operations, and readability issues.
+            </p>
+            <p class="subtext">
+                The goal is not only to detect inefficient code, but also to explain why a pattern
+                can be improved. This makes the system useful as both a productivity tool and a
+                learning assistant.
+            </p>
+            <p class="subtext">
+                It is especially useful for students and beginner developers who want to write
+                cleaner, more maintainable, and more efficient Python programs.
+            </p>
+        </div>
+    </div>
+
+    <!-- TEAM SECTION -->
+    <div class="main-dashboard about-wide">
+        <div class="card">
+            <h2>Meet the Team</h2>
+            <div class="team-grid">
+
+                <div class="team-card">
+                    <img src="{{ url_for('static', filename='images/kunal.jpeg') }}" alt="Kunal Pandey">
+                    <h3>Kunal Pandey</h3>
+                    <p class="role">Project Lead • Frontend • Backend Integration</p>
+                    <p class="member-desc">
+                        Worked on project planning, dashboard interface, Flask integration,
+                        and overall implementation of the system.
+                    </p>
+                </div>
+
+                <div class="team-card">
+                    <img src="{{ url_for('static', filename='images/mayuresh.jpeg') }}" alt="Mayuresh Khare">
+                    <h3>Mayuresh Khare</h3>
+                    <p class="role">UI/UX Design • Testing</p>
+                    <p class="member-desc">
+                        Contributed to interface improvements, visual layout decisions,
+                        user-side testing, and design refinement.
+                    </p>
+                </div>
+
+                <div class="team-card">
+                    <img src="{{ url_for('static', filename='images/jahir.jpeg') }}" alt="Mohammad Jahir Khan">
+                    <h3>Mohammad Jahir Khan</h3>
+                    <p class="role">Analysis Logic • Optimization Rules</p>
+                    <p class="member-desc">
+                        Worked on code analysis logic, inefficiency detection rules,
+                        and optimization-related feature implementation.
+                    </p>
+                </div>
+
+                <div class="team-card">
+                    <img src="{{ url_for('static', filename='images/shamim.jpeg') }}" alt="Mohammad Shamim Khan">
+                    <h3>Mohammad Shamim Khan</h3>
+                    <p class="role">Documentation • Research • Presentation Support</p>
+                    <p class="member-desc">
+                        Handled documentation, literature survey, report structuring,
+                        and project presentation support.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="main-dashboard action-buttons">
+        <a href="/" class="primary-btn nav-transition">Go to Home</a>
+        <button class="secondary-btn" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>Smart Python Optimization Assistant • Mini Project • Academic Year 2025–26</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+</body>
+</html>

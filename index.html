@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyOptiMind | Smart Python Code Optimizer</title>
+
+    <script>
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add("dark-mode");
+        } else {
+            document.documentElement.classList.remove("dark-mode");
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- PAGE TRANSITION OVERLAY -->
+    <div id="page-transition"></div>
+
+    <div class="page-tagline">
+        Premium Python optimization, clarity-first performance guidance.
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">PyOptiMind</div>
+        <div class="nav-links">
+            <a href="/" class="nav-transition">Home</a>
+            <a href="/about" class="nav-transition">About</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-section hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">Studio-grade Python optimization</p>
+            <h1>Refine Python code with clarity and calm precision.</h1>
+            <p>
+                PyOptiMind surfaces your performance opportunities, readability cues, and runtime story in a premium, polished workflow.
+            </p>
+            <div class="hero-actions">
+                <a href="#analyze" class="primary-btn">Start analysis</a>
+                <button type="button" class="secondary-btn" onclick="toggleTheme()">Toggle theme</button>
+            </div>
+        </div>
+
+        <div class="hero-panel card" id="analyze">
+            <div class="hero-panel-head">
+                <h2>Paste your Python snippet</h2>
+                <p class="subtext">Instantly inspect code quality, runtime behavior, and optimization direction.</p>
+            </div>
+            <form action="/analyze" method="POST">
+                <textarea name="code" placeholder="Paste your Python code here..." rows="22" required></textarea>
+
+                <div class="button-row">
+                    <button type="submit" class="primary-btn">Analyze Code</button>
+                    <button type="button" class="secondary-btn" onclick="toggleTheme()">Theme</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="main-dashboard feature-grid">
+        <div class="feature-card">
+            <h3>Clean static analysis</h3>
+            <p>AST-driven findings are presented with a calm, minimal interface so insights are immediate.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Readable suggestions</h3>
+            <p>Clear, thoughtful recommendations help you improve structure and maintainability.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Runtime comparison</h3>
+            <p>See estimated original and optimized runtime in one refined view.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>Smart Python Optimization Assistant • Mini Project • Academic Year 2025–26</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='theme.js') }}"></script>
+</body>
+</html>
